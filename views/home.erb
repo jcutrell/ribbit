@@ -1,0 +1,21 @@
+<% if logged_in? %>
+	<% if @followed_ribbits.length == 0 %>
+		<h3>No Ribbits to display right now...</h3>
+	<% else %>
+		<h2>Ribbits from Users You Follow</h2>
+		<%= erb :_followed_ribbits %>
+	<% end %>
+<% else %>
+<div>
+	<h2>Sign up here!</h2>
+	<%= erb :'users/_form' %>
+	<hr />
+	or <hr />
+	<h2>Log In</h2>
+	<%= erb :_loginform %>
+	<h2>People using Ribbit</h2>
+	<% @public_users.each do | u | %>
+		<a class="public_user_link" href="/<%= u.username %>"><img src="<%= u.gravatar %>"><span><%= u.username %></span></a>
+	<% end %>
+</div>
+<% end %>

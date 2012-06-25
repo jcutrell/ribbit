@@ -1,0 +1,11 @@
+<h2>All Ribbits</h2>
+<ul id="public-ribbits">
+	<% @public_ribbits.each do | r | %>
+		<li class='ribbit'>
+			<img src="<%= r.user.gravatar %>">
+			<a href="/<%= r.user.username %>"><%= r.user.username %></a>
+			<%= r.text %>
+			<%= r.created_at.strftime("%a, %B %d, %Y, at %l:%M") %>
+		</li>
+	<% end %>
+</ul>

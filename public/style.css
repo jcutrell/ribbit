@@ -1,0 +1,40 @@
+body { font-family: Helvetica; color: #444; width: 80%; margin: 2% 10%; }
+.container {
+	position: relative;
+}
+.flash {
+	height: 20px;
+	padding: 20px;
+	border: 1px solid #444;
+}
+#notice.flash { color: #5d922d; background-color: #f5f4c0; }
+#error.flash { color: red; background-color: #ffdddd; }
+#warning.flash { color: orange; background-color: #cc6e22; }
+input {
+	display: block;
+	border: 1px solid #5d922d;
+	padding: 4px;
+}
+ul { padding: 0; margin: 0; }
+#logout {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-color: #666;
+	color: #fff;
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+}
+#logout:hover {
+	background-color: #000;
+}
+
+
+nav a {
+	height: 30px;
+	margin-right: 10px;
+	background-color: #efefef;
+	color: #222;
+	/*padding: 5px;*/
+}

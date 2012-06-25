@@ -1,0 +1,19 @@
+<h2><img src="<%= @selected_user.gravatar %>">
+	<%= @selected_user.username %></h2>
+	<% if @selected_user.id != current_user.id %>
+		<% if @is_followed.nil? %>
+			<a href="/<%= @selected_user.username %>/follow">Follow <%= @selected_user.username %></a>
+		<% else %>
+			<a href="/<%= @selected_user.username %>/unfollow">Unfollow <%= @selected_user.username %></a>
+		<% end %>
+	<% end %>
+	<small>Ribbiting since <%= @selected_user.created_at.strftime("%B %d, %Y") %></small>
+<p><%= @selected_user.bio %></p>
+<ul id="user-ribbits">
+<% @selected_user.ribbits.each do |r| %>
+	<li class='ribbit'>
+		<%= r.text %><br />
+		<small><%= r.created_at.strftime("%a, %B %d, %Y, at %l:%M") %></small>
+	</li>
+<% end %>
+</ul>

@@ -1,0 +1,3 @@
+<% @users.each do | u | %>
+	<a class="public_user_link" href="/<%= u.username %>"><img src="<%= u.gravatar %>"><span><%= u.username %></span></a>
+<% end %>

@@ -1,0 +1,17 @@
+<ul id="followed-ribbits">
+	<% @followed_ribbits.each do | r | %>
+		<li class='ribbit'>
+			<img src="<%= r.user.gravatar %>">
+			<a href="/<%= r.user.username %>"><%= r.user.username %></a>
+			<% if current_user.id != r.user.id %>
+				<% if current_user.follows(:id => r.user.id) %>
+					<a href="/<%= r.user.username %>/unfollow">Unfollow</a>
+				<% else %>
+					<a href="/<%= r.user.username %>/follow">Follow</a>
+				<% end %>
+			<% end %>
+			<%= r.text %>
+			<%= r.created_at.strftime("%a, %B %d, %Y, at %l:%M") %>
+		</li>
+	<% end %>
+</ul>
