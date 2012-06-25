@@ -203,7 +203,6 @@ end
 
 post '/user/:id/delete' do
 	authenticate!
-	#todo: delete process
 	userid = params[:id]
 	if current_user.id == userid
 		u = User.get(current_user.id)
