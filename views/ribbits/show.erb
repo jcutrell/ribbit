@@ -1,0 +1,14 @@
+<h2>Ribbit from <%= @ribbit.user.username %></h2>
+<div class='ribbit'>
+	<img src="<%= @ribbit.user.gravatar %>">
+	<a href="/<%= @ribbit.user.username %>"><%= @ribbit.user.username %></a>
+	<% if current_user.id != @ribbit.user.id %>
+		<% if current_user.follows(:id => @ribbit.user.id) %>
+			<a href="/<%= @ribbit.user.username %>/unfollow">Unfollow</a>
+		<% else %>
+			<a href="/<%= @ribbit.user.username %>/follow">Follow</a>
+		<% end %>
+	<% end %>
+	<%= @ribbit.text %>
+	<%= @ribbit.created_at.strftime("%a, %B %d, %Y, at %l:%M") %>
+</div>

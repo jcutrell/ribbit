@@ -172,9 +172,15 @@ delete '/ribbit/:id/delete' do
 	# get the ribbit
 	ribbit = Ribbit.first(:id => params[:id])
 	# delete ribbit if logged in and belongs to user
-	if logged_in? && ribbit.user.id == current_user.id
-		ribbit.destroy
+	if ribbit.user.id == current_user.id
+		if ribbit.destroy
+			flash[:notice] = "Ribbit successfully deleted"
+			redirect "/"
+		else
+			flash[:error] = "Ribbit wasn't deleted for whatever reason. Try again."
+			redirect "/ribbit/#{params[:id]}"
 	else
+		flash[:error] = "You can't delete a ribbit unless it is yours."
 		redirect "/"
 	end
 end
@@ -185,6 +191,12 @@ get '/ribbit/:id' do
 	authenticate!
 	# get ribbit by its id and show it
 	@ribbit = Ribbit.get(params[:id])
+	if @ribbit.user.is_private && !@ribbit.user.follows(:id => current_user.id)
+		flash[:error]  = "Can't view that ribbit - that user is private and doesn't follow you."
+		redirect '/'
+	else
+		erb :'ribbit/show'
+	end
 end
 
 ## Account delete
@@ -194,7 +206,8 @@ post '/user/:id/delete' do
 	#todo: delete process
 	userid = params[:id]
 	if current_user.id == userid
-		User.get(current_user.id)
+		u = User.get(current_user.id)
+		u.destroy
 	else
 		flash[:error] = "You can't delete someone else's account."
 		redirect '/'
