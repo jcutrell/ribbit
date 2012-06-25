@@ -83,7 +83,7 @@ end
 ['/ribbits', '/public'].each do |path|
 	get path do
 		authenticate!
-		@public_ribbits = Ribbit.all(Ribbit.user.is_private => false, :order => :created_at.desc) + current_user.ribbits(:order => :created_at.desc)
+		@ribbits = Ribbit.all(Ribbit.user.is_private => false, :order => :created_at.desc) + current_user.ribbits(:order => :created_at.desc)
 		erb :'ribbits/public', :layout => :layout
 	end
 end
@@ -179,6 +179,7 @@ delete '/ribbit/:id/delete' do
 		else
 			flash[:error] = "Ribbit wasn't deleted for whatever reason. Try again."
 			redirect "/ribbit/#{params[:id]}"
+		end
 	else
 		flash[:error] = "You can't delete a ribbit unless it is yours."
 		redirect "/"
