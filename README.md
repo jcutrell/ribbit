@@ -17,7 +17,10 @@ And in the models.rb file:
 	require 'bcrypt'
 
 
-## TODO:
+## To Do:
 - Add support for Pony for emailing
 - Test all views
 - Check for paths for all features; Complete contextuality.
+- Create delete/update methods for account
+- Create delete method for ribbits
+- Decide how "Private" works, and implement associated methods
