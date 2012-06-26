@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'sinatra'
 require 'sinatra/flash'
 require 'data_mapper'
