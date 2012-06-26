@@ -3,7 +3,9 @@
 		<li class='ribbit'>
 			<img src="<%= r.user.gravatar %>">
 			<a href="/<%= r.user.username %>"><%= r.user.username %></a>
-			<% if current_user.id != r.user.id %>
+			<% if current_user.id == r.user.id %>
+				<a href="/<%= current_user.username %>/edit">Edit my Profile</a>
+			<% else %>
 				<% if current_user.follows(:id => r.user.id) %>
 					<a href="/<%= r.user.username %>/unfollow">Unfollow</a>
 				<% else %>

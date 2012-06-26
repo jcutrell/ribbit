@@ -53,6 +53,7 @@
 			<a href="/following">Users I'm Following</a>
 			<a href="/followers">Users Following Me</a>
 			<a href="/users/all">All Users</a>
+			<a href="/<%= current_user.username %>/edit">Edit my Profile</a>
 		</nav>
 		<% end %>
 		<% %w[notice error warning].each do |key| %>
