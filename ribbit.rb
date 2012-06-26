@@ -133,7 +133,7 @@ post "/users/create" do
  	props[:username] = props[:username].downcase
 	props[:email] = props[:email].downcase
 	@username = props[:username]
-	Pony.mail(:to => props[:email], :subject => 'Welcome to Ribbit!', :body => (erb :'/mail/welcome', :layout => false))
+	Pony.mail(:to => props[:email], :from => "donotreply@herokuapp.com", :subject => 'Welcome to Ribbit!', :body => (erb :'/mail/welcome', :layout => false))
  	props.delete :password
  	props[:created_at] = Time.now
  	user = User.create(props)
