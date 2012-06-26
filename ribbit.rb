@@ -147,7 +147,7 @@ post "/users/create" do
  	props[:username] = props[:username].downcase
 	props[:email] = props[:email].downcase
 	@username = props[:username]
-	Pony.mail(:to => props[:email], :from => "donotreply@herokuapp.com", :subject => 'Welcome to Ribbit!', :body => (erb :'/mail/welcome', :layout => false))
+	# Pony.mail(:to => props[:email], :from => "donotreply@herokuapp.com", :subject => 'Welcome to Ribbit!', :body => (erb :'/mail/welcome', :layout => false))
  	props.delete :password
  	props[:created_at] = Time.now
  	user = User.create(props)
@@ -245,16 +245,22 @@ get '/:username/edit' do
 		redirect '/'
 	end
 end
-put '/:username/update' do
+put '/:user/update' do
 	authenticate!
-	user = User.first(:username => params[:username])
+	props = Hash[params.map{|k,v| [k.to_sym,v]}]
+	user = User.first(:username => props[:user])
+	props.delete :user
+	props.delete :_method
+	props.delete :splat
+	props.delete :captures
+	props.delete :captures
 	if user.id == current_user.id
-		if user.update(params)
+		if user.update(props)
 			flash[:notice] = "Profile successfully updated."
-			redirect "/#{params[:username]}"
+			redirect "/#{props[:username]}"
 		else
 			flash[:error] = "Something went wrong - try again."
-			redirect "/#{params[:username]}/edit"
+			redirect "/#{params["user"]}/edit"
 		end
 	else
 		flash[:warning] = "You can't update someone else's profile."

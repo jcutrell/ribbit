@@ -1,6 +1,8 @@
 <h2><img src="<%= @selected_user.gravatar %>">
 	<%= @selected_user.username %></h2>
-	<% if @selected_user.id != current_user.id %>
+	<% if @selected_user.id == current_user.id %>
+		<a href="/<%= current_user.username %>/edit">Edit my Profile</a>
+	<% else %>
 		<% if @is_followed.nil? %>
 			<a href="/<%= @selected_user.username %>/follow">Follow <%= @selected_user.username %></a>
 		<% else %>
