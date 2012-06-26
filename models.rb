@@ -28,10 +28,6 @@ class User
   has n, :users_followed, 'FollowedUser', :child_key => [ :follow_id ]
   has n, :followed_by,    'User', :through => :users_followed, :via => :user
 
-  def is_private?
-    return self.is_private
-  end
-
 end
 
 class FollowedUser

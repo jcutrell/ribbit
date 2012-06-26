@@ -240,7 +240,7 @@ end
 	get path do
 		authenticate!
 		@selected_user = User.first(:username => params[:username])
-		if @selected_user.is_private? && !@selected_user.follows(:id => current_user.id)
+		if @selected_user.is_private && !@selected_user.follows(:id => current_user.id)
 			flash[:warning] = "That user's account is private, and can only be viewed by people they follow."
 			redirect '/'
 		end
