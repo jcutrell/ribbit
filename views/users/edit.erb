@@ -1,0 +1,9 @@
+<h2>Update Your Profile</h2>
+<form action="/<%= @user.username %>/update">
+	<label for="bio">Bio:</label>
+	<textarea placeholder="Bio" name="bio"><%= @user.bio %></textarea>
+	<label for="username">Username:</label>
+	<input type="text" name="username" value="<%= @user.username %>">
+	<input type="text" name="email" value="<%= @user.email %>">
+	<input type="submit" value="Update">
+</form>

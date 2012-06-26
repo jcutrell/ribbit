@@ -4,6 +4,7 @@ require 'sinatra/flash'
 require 'data_mapper'
 require File.dirname(__FILE__) + '/models.rb'
 require 'digest/md5'
+require 'pony'
 
 enable :sessions
 
@@ -131,6 +132,8 @@ post "/users/create" do
  	props = Hash[params.map{|k,v| [k.to_sym,v]}]
  	props[:username] = props[:username].downcase
 	props[:email] = props[:email].downcase
+	@username = props[:username]
+	Pony.mail(:to => props[:email], :subject => 'Welcome to Ribbit!', :body => (erb :'/mail/welcome', :layout => false))
  	props.delete :password
  	props[:created_at] = Time.now
  	user = User.create(props)
@@ -207,7 +210,12 @@ post '/user/:id/delete' do
 	userid = params[:id]
 	if current_user.id == userid
 		u = User.get(current_user.id)
+		relationships = FollowedUser.all(:user_id => u.id) + FollowedUser.all(:follow_id => u.id)
+		relationships.destroy
 		u.destroy
+		session.clear
+		flash[:notice] = "You have successfully deleted your account."
+		redirect '/'
 	else
 		flash[:error] = "You can't delete someone else's account."
 		redirect '/'
@@ -226,10 +234,36 @@ end
 		erb :'users/show', :layout => :layout
 	end
 end
+get '/:username/edit' do
+	authenticate!
+	@user = User.first(:username => params[:username])
+	if @user.id == current_user.id
+		erb :'users/edit', :layout => :layout
+	else
+		flash[:warning] = "You can't edit someone else's profile."
+		redirect '/'
+	end
+end
+put '/:username/update' do
+	authenticate!
+	user = User.first(:username => params[:username])
+	if user.id == current_user.id
+		if user.update(params)
+			flash[:notice] = "Profile successfully updated."
+			redirect "/#{params[:username]}"
+		else
+			flash[:error] = "Something went wrong - try again."
+			redirect "/#{params[:username]}/edit"
+		end
+	else
+		flash[:warning] = "You can't update someone else's profile."
+		redirect '/'
+	end
+end
 
 ['/:username/follow', '/users/:username/follow'].each do | path |
 	get path do
-		#TODO: Follow params[:user]
+		authenticate!
 		follow_user = User.first(:username => params[:username])
 		follow_id = follow_user.id
 		follow = FollowedUser.new(:user_id => current_user.id, :follow_id => follow_id)
@@ -247,6 +281,7 @@ end
 end
 ['/:username/unfollow', '/users/:username/unfollow'].each do | path |
 	get path do
+		authenticate!
 		followed_user = User.first(:username => params[:username])
 		follow_id = followed_user.id
 		follow = FollowedUser.first(:follow_id => follow_id, :user_id => current_user.id)
