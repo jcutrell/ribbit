@@ -68,6 +68,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.18)
     multi_json (1.0.4)
+    pg (0.13.2)
     polyglot (0.3.3)
     pony (1.4)
       mail (> 2.0)
@@ -94,6 +95,7 @@ DEPENDENCIES
   data_mapper
   dm-postgres-adapter
   dm-sqlite-adapter
+  pg
   pony
   sinatra
   sinatra-flash
