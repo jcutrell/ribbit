@@ -1,1 +1,2 @@
-#config yeah!!!
+require './ribbit'
+run Sinatra::Application
