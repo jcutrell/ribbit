@@ -1,6 +1,6 @@
 # models
 require 'bcrypt'
-DataMapper::setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/ribbit.db")
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/ribbit')
 # include MD5 gem, should be part of standard ruby install
 
 class User
