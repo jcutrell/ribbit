@@ -64,7 +64,9 @@
 		  <% end %>
 		<% end %>
 		<%= yield %>
-		<a id="logout" href="/logout">Log Out</a>
+		<% if logged_in? %>
+			<a id="logout" href="/logout">Log Out</a>
+		<% end %>
 	</div><!-- container -->
 
 
