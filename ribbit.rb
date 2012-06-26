@@ -235,19 +235,6 @@ post '/user/:id/delete' do
 		redirect '/'
 	end
 end
-
-['/:username', '/users/:username'].each do | path |
-	get path do
-		authenticate!
-		@selected_user = User.first(:username => params[:username])
-		if @selected_user.is_private && !@selected_user.follows(:id => current_user.id)
-			flash[:warning] = "That user's account is private, and can only be viewed by people they follow."
-			redirect '/'
-		end
-		@is_followed = FollowedUser.first(:user_id => current_user.id, :follow_id => @selected_user.id)
-		erb :'users/show', :layout => :layout
-	end
-end
 get '/:username/edit' do
 	authenticate!
 	@user = User.first(:username => params[:username])
@@ -272,6 +259,19 @@ put '/:username/update' do
 	else
 		flash[:warning] = "You can't update someone else's profile."
 		redirect '/'
+	end
+end
+['/:username', '/users/:username'].each do | path |
+	get path do
+		authenticate!
+		puts params[:username]
+		@selected_user = User.first(:username => params[:username])
+		if @selected_user.is_private && !@selected_user.follows(:id => current_user.id)
+			flash[:warning] = "That user's account is private, and can only be viewed by people they follow."
+			redirect '/'
+		end
+		@is_followed = FollowedUser.first(:user_id => current_user.id, :follow_id => @selected_user.id)
+		erb :'users/show', :layout => :layout
 	end
 end
 
