@@ -1,5 +1,6 @@
 <h2>Update Your Profile</h2>
 <form action="/<%= @user.username %>/update" method="post">
+	<input type="hidden" name="_method" value="put" />
 	<label for="bio">Bio:</label>
 	<textarea placeholder="Bio" name="bio"><%= @user.bio %></textarea>
 	<label for="username">Username:</label>
